@@ -1,77 +1,104 @@
 # claude/ — Claude Code Instructions
 
-Same rules as the Cursor `.mdc` files, formatted for Claude Code.
+Same 15 rules as the Cursor `.mdc` files, formatted for Claude Code.
 
-## How Claude Code works (vs Cursor)
+## Structure
 
-| | Cursor | Claude Code |
-|---|---|---|
-| File format | `.mdc` (YAML frontmatter) | `.md` (plain markdown) |
-| Location | `.cursor/rules/*.mdc` | `CLAUDE.md` at project root |
-| Multiple files | Yes (numbered) | Yes (nested in subdirectories) |
-| Trigger modes | alwaysApply, globs, manual | Always loaded from current + parent dirs |
-| File count | 15 separate files | 1 combined file |
+```
+claude/
+├── CLAUDE.md              # Ready-to-use — all 15 rules combined
+├── compose.sh             # Build custom CLAUDE.md from individual rules
+├── rules/                 # 15 individual rule files
+│   ├── 00-global-architect.md
+│   ├── 10-backend-fastapi.md
+│   ├── 20-frontend-nextjs.md
+│   ├── 30-database-postgres.md
+│   ├── 35-api-contracts.md
+│   ├── 40-cache-redis.md
+│   ├── 45-environment-config.md
+│   ├── 50-rag-system.md
+│   ├── 55-data-model-versioning.md
+│   ├── 60-agents.md
+│   ├── 70-security.md
+│   ├── 80-testing-quality.md
+│   ├── 85-error-observability.md
+│   ├── 90-devops-deployment.md
+│   └── 99-response-style.md
+└── README.md
+```
 
 ## Install
 
-Copy into your project root:
+### Option 1: Full rules (recommended)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/aiagentwithdhruv/cursor-rules/main/claude/CLAUDE.md -o CLAUDE.md
 ```
 
-Or clone and copy:
+### Option 2: Compose custom
+
+Pick only the rules you need:
 
 ```bash
-cp cursor-rules/claude/CLAUDE.md your-project/CLAUDE.md
+git clone https://github.com/aiagentwithdhruv/cursor-rules.git
+cd cursor-rules/claude
+
+# All rules
+./compose.sh > ~/my-project/CLAUDE.md
+
+# Backend only (no frontend, no AI)
+./compose.sh 00 10 30 35 40 45 70 80 85 90 99 > ~/my-project/CLAUDE.md
+
+# Frontend only
+./compose.sh 00 20 45 70 80 85 99 > ~/my-project/CLAUDE.md
+
+# AI/ML only (RAG + agents + versioning)
+./compose.sh 00 50 55 60 70 80 85 99 > ~/my-project/CLAUDE.md
 ```
 
-## What's included
+### Option 3: Manual pick
 
-One file, all 15 rules combined:
+Copy individual files from `rules/` and paste into your `CLAUDE.md`.
 
-- Default Operating Mode (architect-first thinking)
-- Core Engineering Principles (clean architecture, separation of concerns)
-- Backend (FastAPI — thin routes, services, repositories)
-- Frontend (Next.js — TypeScript, components, API clients)
-- Database (PostgreSQL — migrations, indexes, repositories)
-- API Contracts (versioning, schema evolution, deprecation)
-- Caching (Redis — TTLs, key naming, utilities)
-- Environment & Config (startup validation, secrets, .env.example)
-- RAG System (chunking, retrieval, ingestion separation)
-- Data & Model Versioning (checkpoints, reproducibility, seeds)
-- AI Agents (tools, schemas, memory, orchestration)
-- Security (secrets, input validation, prompt injection, least privilege)
-- Testing & Quality (unit tests, mocking, linting, types)
-- Error Handling & Observability (structured errors, tracing, health checks)
-- DevOps & Deployment (Docker, AWS, Vercel, VPS, CI/CD)
-- Response Style (minimal changes, production code, no toy implementations)
+## How Claude Code loads rules
 
-## Customize
+| Location | When it loads |
+|----------|--------------|
+| `CLAUDE.md` at project root | Always (every conversation) |
+| `CLAUDE.md` in subdirectory | When working in that directory |
+| `~/.claude/CLAUDE.md` | Global (all projects) |
 
-Edit `CLAUDE.md` directly. Remove sections you don't need. Add project-specific context.
+### Subdirectory rules
 
-Claude Code also reads `CLAUDE.md` files in subdirectories — use this for folder-specific rules:
+Split rules across directories — Claude Code stacks parent + current:
 
 ```
 your-project/
-├── CLAUDE.md                  # Global rules (this file)
+├── CLAUDE.md                  # Global (00 + 45 + 70 + 80 + 85 + 99)
 ├── backend/
-│   └── CLAUDE.md              # Backend-specific overrides
+│   └── CLAUDE.md              # Backend-specific (10 + 30 + 35 + 40)
 ├── frontend/
-│   └── CLAUDE.md              # Frontend-specific overrides
-└── docs/                      # Project docs (same as ../docs/)
+│   └── CLAUDE.md              # Frontend-specific (20)
+├── ai/
+│   └── CLAUDE.md              # AI-specific (50 + 55 + 60)
+└── docs/
 ```
 
-## Use both
+## Cursor vs Claude Code
 
-You can use Cursor rules AND Claude Code instructions in the same project:
+| | Cursor | Claude Code |
+|---|---|---|
+| Format | `.mdc` with YAML frontmatter | `.md` plain markdown |
+| Location | `.cursor/rules/` | Project root `CLAUDE.md` |
+| Multiple files | Yes (numbered) | Yes (nested in subdirectories) |
+| Triggers | alwaysApply, globs, manual | Directory-based (always loaded) |
+| Install | Copy `.mdc` files | Copy one file or compose |
+
+Use both — zero conflict:
 
 ```
 your-project/
-├── .cursor/rules/*.mdc        # Cursor reads these
-├── CLAUDE.md                  # Claude Code reads this
-└── docs/                      # Both reference these
+├── .cursor/rules/*.mdc     # Cursor reads these
+├── CLAUDE.md               # Claude Code reads this
+└── docs/                   # Both reference these
 ```
-
-Same rules, two formats, zero conflict.
