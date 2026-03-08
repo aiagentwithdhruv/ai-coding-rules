@@ -1,14 +1,16 @@
 # cursor-rules
 
-Production-grade Cursor rules + project docs for AI-native full-stack development.
+Production-grade rules + project docs for AI-native full-stack development. Works with **Cursor** and **Claude Code**.
 
-15 rules + 5 doc templates. Drop into any project. Your AI coding tool immediately thinks like a senior engineer.
+15 rules + 5 doc templates + 2 formats. Drop into any project. Your AI coding tool immediately thinks like a senior engineer.
 
 ## What's inside
 
 ```
 cursor-rules/
 ├── rules/                          # 15 Cursor rules (.mdc)
+├── claude/                         # Claude Code equivalent
+│   └── CLAUDE.md                   # All 15 rules in one file
 ├── docs/                           # 5 project doc templates
 │   ├── PRD.md                      # Product requirements
 │   ├── ARCHITECTURE.md             # System architecture + data flow
@@ -147,9 +149,28 @@ Don't use FastAPI? Replace `10-backend-fastapi.mdc`:
 - `10-backend-django.mdc` for Django
 - `10-backend-go.mdc` for Go
 
-## Also works with Claude Code
+## Claude Code
 
-Copy the rules into a `CLAUDE.md` at your project root — Claude Code reads it automatically. The content is the same, just remove the YAML frontmatter.
+Same rules, different format. Pre-built `CLAUDE.md` included — just copy it:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/aiagentwithdhruv/cursor-rules/main/claude/CLAUDE.md -o CLAUDE.md
+```
+
+| | Cursor | Claude Code |
+|---|---|---|
+| Format | 15 `.mdc` files with YAML frontmatter | 1 `CLAUDE.md` (plain markdown) |
+| Location | `.cursor/rules/` | Project root |
+| Triggers | alwaysApply, globs, manual | Always loaded |
+| Install | `install.sh` or manual copy | Single file copy |
+
+Use both in the same project — zero conflict:
+```
+your-project/
+├── .cursor/rules/*.mdc     # Cursor reads these
+├── CLAUDE.md               # Claude Code reads this
+└── docs/                   # Both reference these
+```
 
 ## Why gap numbering?
 
