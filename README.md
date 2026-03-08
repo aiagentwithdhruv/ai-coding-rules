@@ -1,5 +1,9 @@
 # ai-coding-rules
 
+<p align="center">
+  <img src="assets/hero.png" alt="AI Coding Rules — 15 Rules + 9 Templates = Your AI Writes Like a Senior Engineer" width="100%">
+</p>
+
 Production-grade rules, docs, and patterns for AI-native full-stack development. Works with **Cursor** and **Claude Code**.
 
 15 engineering rules + 9 doc templates + skills guide + agent patterns + MCP setup. Drop into any project — your AI coding tool immediately thinks like a senior engineer.
