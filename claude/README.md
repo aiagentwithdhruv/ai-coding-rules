@@ -32,7 +32,7 @@ claude/
 ### Option 1: Full rules (recommended)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/aiagentwithdhruv/cursor-rules/main/claude/CLAUDE.md -o CLAUDE.md
+curl -fsSL https://raw.githubusercontent.com/aiagentwithdhruv/ai-coding-rules/main/claude/CLAUDE.md -o CLAUDE.md
 ```
 
 ### Option 2: Compose custom
@@ -40,8 +40,8 @@ curl -fsSL https://raw.githubusercontent.com/aiagentwithdhruv/cursor-rules/main/
 Pick only the rules you need:
 
 ```bash
-git clone https://github.com/aiagentwithdhruv/cursor-rules.git
-cd cursor-rules/claude
+git clone https://github.com/aiagentwithdhruv/ai-coding-rules.git
+cd ai-coding-rules/claude
 
 # All rules
 ./compose.sh > ~/my-project/CLAUDE.md
